@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- ========================= -->
+    <!-- PREPROCESSORS (Step 1)    -->
+    <!-- ========================= -->
+    
+    <!-- Create PreProcessorToUpperImpl object -->
+    <bean id="preProcessorToUpper" class="preprocessor.PreProcessorToUpperImpl"/>
+    
+    <!-- Create PreProcessorToLowerImpl object -->
+    <bean id="preProcessorToLower" class="preprocessor.PreProcessorToLowerImpl"/>
+
+    <!-- ========================= -->
+    <!-- RENDERERS (Step 2)        -->
+    <!-- ========================= -->
+    
+    <!-- Create RendererStandardImpl with PreProcessor dependency -->
+    <bean id="rendererStandard" class="renderer.RendererStandardImpl">
+        <!-- Constructor injection: pass preProcessorToUpper as constructor parameter -->
+        <constructor-arg ref="preProcessorToUpper"/>
+    </bean>
+    
+    <!-- Create RendererErrImpl with PreProcessor dependency -->
+    <bean id="rendererErr" class="renderer.RendererErrImpl">
+        <!-- Constructor injection: pass preProcessorToUpper as constructor parameter -->
+        <constructor-arg ref="preProcessorToUpper"/>
+    </bean>
+
+    <!-- ========================= -->
+    <!-- PRINTERS (Step 3)         -->
+    <!-- ========================= -->
+    
+    <!-- Create PrinterWithPrefixImpl with Renderer dependency -->
+    <bean id="printerWithPrefix" class="printer.PrinterWithPrefixImpl">
+        <!-- Constructor injection: pass rendererErr as constructor parameter -->
+        <constructor-arg ref="rendererErr"/>
+        <!-- Property injection: call setPrefix("PREFIX") -->
+        <property name="prefix" value="PREFIX"/>
+    </bean>
+    
+    <!-- Create PrinterWithDateTimeImpl with Renderer dependency -->
+    <bean id="printerWithDateTime" class="printer.PrinterWithDateTimeImpl">
+        <!-- Constructor injection: pass rendererStandard as constructor parameter -->
+        <constructor-arg ref="rendererStandard"/>
+    </bean>
+
+</beans>
