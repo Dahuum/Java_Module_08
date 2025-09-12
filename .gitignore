@@ -2,4 +2,4 @@ target/
 .classpath
 bin/
 .settings
-
+.project
