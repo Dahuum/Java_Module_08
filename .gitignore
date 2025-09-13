@@ -3,3 +3,6 @@ target/
 bin/
 .settings
 .project
+.qodo/
+.vscode/
+.vscode
